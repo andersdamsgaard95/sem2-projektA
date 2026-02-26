@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <a href="/">Tilbage til forside</a>
+    </header>
+
+    <main>
+        <h1>
+            Velkommen <%= data.name %>
+        </h1>
+
+        <div>
+            <h2>Dine gemte data:</h2>
+            <ul>
+                <li>
+                    <span class="infoHeading">Navn:</span>
+                    <%= data.name %>
+                </li>
+                <li>
+                    <span class="infoHeading">Alder:</span>
+                    <%= data.age %>
+                </li>
+                <li>
+                    <span class="infoHeading">Adresse:</span>
+                    <%= data.address %>
+                </li>
+            </ul>
+        </div>
+    </main>
+
+    <footer>
+        <button id="deleteInfoBtn">Slet dine oplysninger</button>
+    </footer>
+
+    <script>
+        const deleteInfoBtn = document.getElementById('deleteInfoBtn');
+        deleteInfoBtn.addEventListener('click', async () => {
+            try {
+                const res = await fetch('/delete-info', {
+                    method: "DELETE"
+                })
+
+                const text = await res.text();
+
+                if (!res.ok) {
+                    alert(`FEJL: ${text}`)
+                    return
+                }
+
+                alert(text);
+
+                // Redirect til startside
+                window.location.href = '/';
+            } catch (err) {
+                alert(`Netværksfejl: ${err}`);
+            }
+        })
+    </script>
+</body>
+
+</html>
